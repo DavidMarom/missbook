@@ -5,6 +5,7 @@ import { BookApp } from './pages/BookApp.jsx';
 import { BookDetails } from './pages/BookDetails.jsx';
 import { BookAdd } from './pages/BookAdd.jsx';
 import { Home } from './pages/Home.jsx';
+import { Notification } from './cmps/Notifications.jsx'
 
 import { NavBar } from './cmps/AppHeader.jsx';
 
@@ -27,6 +28,7 @@ export class App extends React.Component {
                             <Route component={Home} path="/" />
                         </Switch>
                     </main>
+                    <Notification />
                 </div>
             </Router>
         )

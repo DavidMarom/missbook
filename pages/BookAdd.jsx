@@ -1,3 +1,4 @@
+import eventBus from '../services/event-bus-service.js'
 import { bookService } from "../services/book-service.js";
 
 export class BookAdd extends React.Component {
@@ -16,32 +17,34 @@ export class BookAdd extends React.Component {
             .then(books => { this.setState({ results: books.items }), console.log(books.items); })
     }
 
-    onClick =(ev)=> {
+    onClick = (ev) => {
         // event.preventDefault();
-        const ID=ev.target.getAttribute("id");
+        const ID = ev.target.getAttribute("id");
         const CB = this.state.results[ID];
-        var newBook = 
+        var newBook =
         {
             id: null,
             title: CB.volumeInfo.title,
             subtitle: '',
             authors: CB.volumeInfo.authors,
-            publishedDate:CB.volumeInfo.publishedDate ,
+            publishedDate: CB.volumeInfo.publishedDate,
             description: CB.volumeInfo.description,
             pageCount: CB.volumeInfo.pageCount,
-            review : [],
-            categories: [            ],
+            review: [],
+            categories: [],
             thumbnail: CB.volumeInfo.imageLinks.thumbnail,
             language: CB.volumeInfo.language,
             listPrice: {
-              amount: 100,              
-              currencyCode: 'AAA',
-              isOnSale: true
+                amount: 100,
+                currencyCode: 'AAA',
+                isOnSale: true
             }
-          }
+        }
 
         console.log(newBook);
-          bookService.save(newBook);
+        bookService.save(newBook);
+        eventBus.emit('notify', { msg: 'Book was added', type: 'good' })
+
 
     }
 
@@ -54,7 +57,7 @@ export class BookAdd extends React.Component {
                 {this.state.results.map((result, idx) => <div className="add-books-list" key={idx}>
                     <p >{result.volumeInfo.title}</p>
                     <button id={idx} onClick={this.onClick}> + </button>
-                    </div>)}
+                </div>)}
 
             </section>
         )
